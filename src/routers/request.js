@@ -3,15 +3,13 @@ const router= new express.Router();
 const helpRequest=require('../models/requests')
 
 router.post('/request',async (req, res)=>{
-      const helpReq=new helpRequest({
-          name:req.body.name,
-          number:req.body.number,
-      });
+    const helpReq=new helpRequest(req.body)
+    
       try{
           await helpReq.save();
           res.status(201).send(helpReq);
       }catch(e){
-          res.send(e);
+          res.status(400).send(e);
       }
 })
 

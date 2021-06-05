@@ -1,17 +1,17 @@
 const mongoose=require('mongoose');
 const validator=require('validator');
 
-const helpRequestSchema=new mongoose.Schema({
+const helpOfferSchema=new mongoose.Schema({
     name:{
-        type:String,
-        trim:true,
-        required:true,
+        type: String,
+        trim: true,
+        required: true,
         minLength:3
     },
     contactNumber:{
         type:Number,
         trim:true,
-        required:true,
+        required: true,
         minLength:5,
         maxLength:15
     },
@@ -24,20 +24,22 @@ const helpRequestSchema=new mongoose.Schema({
             if(checkEmail == false){
                 throw new Error('Email is invalid!');
             }
-        },
+        }
     },
-    category:{
+    address:{
         type:String,
         trim:true,
-        required:true,
+        required: true,
+        minLength:3
     },
     message:{
         type:String,
         trim:true,
+        required: true,
         minLength:10
     }
 })
 
-const helpRequest=mongoose.model('helpRequest',helpRequestSchema)
+const helpOffer=mongoose.model('helpOffer',helpOfferSchema)
 
-module.exports=helpRequest;
+module.exports=helpOffer;

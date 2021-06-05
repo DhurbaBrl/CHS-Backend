@@ -1,5 +1,6 @@
 const express=require('express')
-const helpRouter=require('./hlp_request/request')
+const requestRouter=require('./routers/request')
+const offerRouter=require('./routers/offer')
 require('./database/mongoose')
 
 
@@ -7,7 +8,8 @@ const app=express()
 
 
 app.use(express.json())
-app.use(helpRouter)
+app.use(requestRouter)
+app.use(offerRouter)
 
 
 app.listen(3000,()=>{
