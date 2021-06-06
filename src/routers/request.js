@@ -13,4 +13,22 @@ router.post('/request',async (req, res)=>{
       }
 })
 
+router.get('/request/data/:id',async(req,res)=>{
+    try{
+        const requestData=await helpRequest.findById(req.params.id)
+        res.status(200).send(requestData)
+    }catch(e){
+        res.status(400).send(e)
+    }
+})
+
+router.get('/request/data',async (req,res)=>{
+    try{
+        const getRequestAll=await helpRequest.find({})
+        res.status(200).send(getRequestAll)
+    }catch(e){
+        res.status(400).send(e);
+    }
+})
+
 module.exports=router;

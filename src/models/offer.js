@@ -2,6 +2,17 @@ const mongoose=require('mongoose');
 const validator=require('validator');
 
 const helpOfferSchema=new mongoose.Schema({
+    email:{
+        type:String,
+        trim:true,
+        lowercase:true,
+        validate(email){
+            const checkEmail=validator.isEmail(email)
+            if(checkEmail == false){
+                throw new Error('Email is invalid!');
+            }
+        }
+    },
     name:{
         type: String,
         trim: true,
@@ -15,27 +26,19 @@ const helpOfferSchema=new mongoose.Schema({
         minLength:5,
         maxLength:15
     },
-    email:{
+    category:{
         type:String,
         trim:true,
-        lowercase:true,
-        validate(email){
-            const checkEmail=validator.isEmail(email)
-            if(checkEmail == false){
-                throw new Error('Email is invalid!');
-            }
-        }
+        required: true,
     },
     address:{
         type:String,
         trim:true,
-        required: true,
         minLength:3
     },
-    message:{
+    details:{
         type:String,
         trim:true,
-        required: true,
         minLength:10
     }
 })
