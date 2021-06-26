@@ -23,12 +23,20 @@ router.get('/request/data/:id',async(req,res)=>{
 })
 
 router.get('/request/data',async (req,res)=>{
+    const regexs=req.query.fieldInput
     try{
-        const getRequestAll=await helpRequest.find({})
-        res.status(200).send(getRequestAll)
-    }catch(e){
-        res.status(400).send(e);
+    if (regexs){
+      helpRequest.find({$or : [{category:{$regex:regexs,$options:'$i'}},{name:{$regex:regexs,$options:'$i'}}]}).then((data)=>{
+          res.status(200).send(data)
+      })
+    }else{
+        
+            const getRequestAll=await helpRequest.find({})
+            res.status(200).send(getRequestAll)
     }
+}catch(e){
+    res.status(400).send(e)
+}
 })
 
 module.exports=router;
