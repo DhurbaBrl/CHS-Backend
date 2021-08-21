@@ -1,6 +1,7 @@
 const express=require('express');
 const router= new express.Router();
 const helpRequest=require('../models/requests')
+const authoriseIt = require('../authentication/auth');
 
 router.post('/request',async (req, res)=>{
     const helpReq=new helpRequest(req.body)
@@ -38,5 +39,40 @@ router.get('/request/data',async (req,res)=>{
     res.status(400).send(e)
 }
 })
+
+//to update the request by id
+router.patch('/request/:id', authoriseIt, async (req, res) => {
+    try {
+      const requestData = await helpRequest.findOneAndUpdate({
+        _id: req.params.id
+      }, req.body);
+      if (!requestData) {
+        return res.send({
+          errorMessage: 'Request not found.',
+        });
+      }
+      res.send(requestData);
+    } catch (e) {
+      res.send(e);
+    }
+  });
+
+//to delete request by id
+router.delete('/request/:id', authoriseIt, async (req, res) => {
+    try {
+      const deleteRequest = await helpRequest.findOneAndDelete({
+        _id: req.params.id
+      });
+      if (!deleteRequest) {
+        return res.send({
+          errorMessage: 'Content not found.',
+        });
+      }
+      res.send(deleteRequest);
+    } catch (e) {
+      res.send(e);
+    }
+  });
+
 
 module.exports=router;
