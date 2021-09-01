@@ -32,21 +32,32 @@ router.get('/offer/data',async (req,res)=>{
 })
 
 //to update the offer by id
-router.patch('/offer/:id', authoriseIt, async (req, res) => {
-    try {
-      const requestData = await helpOffer.findOneAndUpdate({
-        _id: req.params.id
-      }, req.body);
-      if (!requestData) {
-        return res.send({
-          errorMessage: 'Request not found.',
-        });
-      }
-      res.send(requestData);
-    } catch (e) {
-      res.send(e);
-    }
-  });
+// router.patch('/offer/:id', authoriseIt, async (req, res) => {
+//     try {
+//       const requestData = await helpOffer.findOneAndUpdate({
+//         _id: req.params.id
+//       }, req.body);
+//       if (!requestData) {
+//         return res.send({
+//           errorMessage: 'Request not found.',
+//         });
+//       }
+//       res.send(requestData);
+//     } catch (e) {
+//       res.send(e);
+//     }
+//   });
+
+router.patch('/offer/:id', async (req, res) => {
+    await helpOffer.findByIdAndUpdate(req.params.id, req.body, {new: true}).then((request) => {
+        if (!request) {
+            return res.status(404).send();
+        }
+        res.send(request);
+    }).catch((error) => {
+        res.status(500).send(error);
+    })
+})
 
 //to delete offer by id
 router.delete('/offer/:id', authoriseIt, async (req, res) => {
