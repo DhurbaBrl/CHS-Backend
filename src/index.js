@@ -1,4 +1,5 @@
 const express=require('express')
+var cors = require('cors')
 const requestRouter=require('./routers/request')
 const offerRouter=require('./routers/offer')
 const userRouter=require('./routers/user')
@@ -6,6 +7,8 @@ require('./database/mongoose')
 
 
 const app=express()
+app.use(cors())
+
 
 
 app.use(express.json())
